@@ -1,0 +1,10 @@
+<form>
+    <input 
+        #input 
+        type="text" 
+        maxlength="1"
+        *ngFor="let control of code.controls; index as i;" 
+        [formControl]="resolveControl(control)"
+        (keyup)="onChange($event, i)"
+    />
+</form>

@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+}
+
+:root {
+    --purple-primary: #845EF7;
+    --purple-secondary: #5628EE;
+    --purple-tertiary: #5F3DC4;
+    --purple-quaternary: #D0BFFF;
+
+    --gray-darker: #212529;
+    --gray-dark: #2F3545;
+    --gray-light: #CED4DA;
+    --gray-lighter: #F8F9FA;
+
+    --danger: #ff1d0d;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+h6 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--gray-dark);
+}
+
+.default-bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+body.overflow-hidden {
+    overflow-y: hidden;
+}
+
+.tooltip-parent {
+    position: relative;
+}
+
+span.swift-tooltip {
+    padding: 4px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+.fade-in {
+    display: block;
+    animation: fadein 2s ease-in forwards;
+}
+
+.fade-out {
+    display: none;
+    animation: fadein 2s ease-out forwards;
+}
+
+button.swift-button, a.swift-button {
+    transition: 0.2s all linear;
+    cursor: pointer;
+}
+
+button.swift-button.flat, a.swift-button.flat {
+    min-width: 180px;
+    max-width: 320px;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    background-color: var(--purple-primary);
+    border: 2px solid var(--purple-primary);
+    border-radius: 8px;
+}
+
+button.button.swift-button.flat.ghost, a.swift-button.flat.ghost {
+    color: var(--purple-primary);
+    background-color: white;
+}
+
+button.swift-button.flat:hover, a.swift-button.flat:hover {
+    color: var(--purple-primary);
+    background-color: white;
+}
+
+button.swift-button.flat.ghost:hover, a.swift-button.flat.ghost:hover {
+    color: white;
+    background-color: var(--purple-primary);
+}
+
+div.swift-form-field > input {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-light);
+    outline: 0;
+    border: 2px solid var(--gray-darker);
+    border-radius: 8px;
+    transition: 0.2s all linear;
+}
+  
+div.swift-form-field > input:hover {
+    color: var(--gray-lighter);
+    border: 2px solid var(--purple-quaternary);
+    transition: 0.2s all linear;
+}
+  
+div.swift-form-field > input:focus {
+    color: var(--gray-darker);
+    border: 2px solid var(--purple-primary);
+    transition: 0.2s all linear;
+}
+
+.card-title {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #212529;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0;
+    }
+}

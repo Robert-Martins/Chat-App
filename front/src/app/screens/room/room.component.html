@@ -1,0 +1,20 @@
+<swift-container>
+    <swift-flex mainAxis="column" justify="center" align="center" gap="16">
+        <h1>Insira o nome do Chat</h1>
+        <swift-form-field *ngIf="roomNameControl">
+            <input
+                type="text"
+                placeholder="Nome da sala de bate-papo"
+                (keyup.enter)="onClickCreate()"
+                [formControl]="roomNameControl"
+            />
+            <swift-form-field-error *ngIf="roomNameControl?.touched && roomNameControl?.errors?.['required']">
+                O nome da sala é <strong>obrigatório</strong>
+            </swift-form-field-error>
+            <swift-form-field-error *ngIf="roomNameControl?.errors?.['maxlength']">
+                Máximo de <strong>20 caracteres</strong>
+            </swift-form-field-error>
+        </swift-form-field>
+        <button swiftButton type="button" [disabled]="roomNameControl?.invalid" (click)="onClickCreate()">Criar sala</button>
+    </swift-flex>
+</swift-container>
