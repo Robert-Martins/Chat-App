@@ -1,9 +1,9 @@
-import { Directive, ElementRef, Input, Renderer2, booleanAttribute } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2, booleanAttribute } from '@angular/core';
 
 @Directive({
   selector: '[swiftButton]'
 })
-export class SwiftButtonDirective {
+export class SwiftButtonDirective implements OnInit {
 
   @Input()
   public swiftButtonType: 'flat' | 'flat-ghost' | 'icon' = 'flat';
@@ -15,7 +15,9 @@ export class SwiftButtonDirective {
     private renderer: Renderer2,
     private elementRef: ElementRef
   ) { 
-    console.log(this.swiftButtonType)
+  }
+
+  ngOnInit(): void {
     this.renderer.setAttribute(this.elementRef.nativeElement, 'class', this.buildClasses().trim());
   }
 

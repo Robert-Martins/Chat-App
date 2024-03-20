@@ -58,7 +58,7 @@ body.overflow-hidden {
 span.swift-tooltip {
     padding: 4px;
     position: absolute;
-    top: 100%;
+    top: 110%;
     left: 50%;
     transform: translateX(-50%);
     color: white;
@@ -68,14 +68,14 @@ span.swift-tooltip {
     border-radius: 4px;
 }
 
-.fade-in {
+span.show {
     display: block;
-    animation: fadein 2s ease-in forwards;
+    animation: fadein 0.2s ease-in forwards;
 }
 
-.fade-out {
+span.hide {
     display: none;
-    animation: fadein 2s ease-out forwards;
+    animation: fadein 0.2s ease-out forwards;
 }
 
 button.swift-button, a.swift-button {
@@ -109,6 +109,41 @@ button.swift-button.flat:hover, a.swift-button.flat:hover {
 button.swift-button.flat.ghost:hover, a.swift-button.flat.ghost:hover {
     color: white;
     background-color: var(--purple-primary);
+}
+
+button.swift-button.icon {
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s all linear;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+button.swift-button.icon:hover, button.swift-button.icon:focus {
+    transition: 0.2s all linear;
+    background-color: var(--purple-primary);
+}
+
+button.swift-button.icon.logout {
+    background-image: url('./assets/icons/logout-purple.png');
+}
+
+button.swift-button-icon.logout:hover, button.swift-button-icon.logout:focus {
+    background-image: url('./assets/icons/logout.png');
+}
+
+button.swift-button.icon.share {
+    background-image: url('./assets/icons/share-purple.png');
+}
+
+button.swift-button-icon.share:hover, button.swift-button-icon.share:focus {
+    background-image: url('./assets/icons/share.png');
 }
 
 div.swift-form-field > input {
@@ -148,6 +183,7 @@ div.swift-form-field > input:focus {
 @keyframes fadein {
     0% {
         opacity: 0;
+        display: block;
     }
     100% {
         opacity: 100%;
@@ -160,5 +196,6 @@ div.swift-form-field > input:focus {
     }
     100% {
         opacity: 0;
+        display: none;
     }
 }
