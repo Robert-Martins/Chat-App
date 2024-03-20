@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DialogsService } from '../dialogs.service';
 import { BehaviorSubject } from 'rxjs';
 
+type ConfirmationDialogIcons = null | 'leave';
+
 @Component({
   selector: 'swift-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
@@ -10,21 +12,19 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ConfirmationDialogComponent {
 
-  private readonly defaultIconClass: string = 'confirmation-dialog-icon';
-
-  @Input()
-  public set icon(iconName: string) {
-    this.iconClass = iconName ? `${this.defaultIconClass} ${iconName ?? ''}` : null;
-  }
-
   @Input()
   public set text(confirmationText: string) {
     this.confirmationText$.next(confirmationText);
   }
 
+  @Input()
+  public set icon(iconName: ConfirmationDialogIcons) {
+    this.iconClass$.next(iconName ? iconName : null);
+  }
+
   public confirmationText$: BehaviorSubject<string> = new BehaviorSubject(null);
 
-  public iconClass: string = this.defaultIconClass;
+  public iconClass$: BehaviorSubject<ConfirmationDialogIcons> = new BehaviorSubject(null);
 
   constructor(
     private dialogService: DialogsService
