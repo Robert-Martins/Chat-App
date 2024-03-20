@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector } from '@angular/core';
-import { FormBuilder, FormControl, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ChatEvent } from '../../core/models/chat-event.model';
@@ -21,7 +21,7 @@ import { SharedModule } from '../../shared/shared.module';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, SharedModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SharedModule],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
@@ -35,12 +35,9 @@ export class ChatComponent extends UtilComponent {
 
   public roles$: BehaviorSubject<Enum[]> = new BehaviorSubject([]);
 
-  public messageControl: FormControl;
+  public messageControl$: BehaviorSubject<FormControl> = new BehaviorSubject(null);
 
   private readonly CHAT_ROLES_ENUM: string = "userRoleInChat";
-
-  messages: Message[] = [];
-  newMessage: string = '';
 
   constructor(
     private chatRoomUserService: ChatRoomUserService,
@@ -59,70 +56,13 @@ export class ChatComponent extends UtilComponent {
   ngOnInit() {
     this.createMessageControl();
     this.onChatAccess();
-    this.addSampleMessages();
-  }
-
-  sendMessage() {
-    if (this.newMessage.trim() !== '') {
-      const chatRoomUserDto = {};
-
-      /* const newMessage = new Message(null, this.newMessage, chatRoomUser);
-         this.chatService.sendMessage(newMessage); */
-
-      this.newMessage = '';
-    }
-  }
-
-  receiveMessage(message: Message) {
-    this.messages.push(message);
-  }
-
-  isSender(message: Message): boolean {
-    return message.author.name === 'User'; //trocar pro sender
-  }
-
-  addSampleMessages() {
-    const userMessage1 = new Message(null, 'Lorem ipsum dolor sit amet', {
-      id: '1',
-      name: 'User',
-    });
-    const otherPersonMessage1 = new Message(
-      null,
-      'Consectetur adipiscing elit',
-      {
-        id: '2',
-        name: 'Sender',
-      }
-    );
-    const userMessage2 = new Message(
-      null,
-      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      {
-        id: '1',
-        name: 'User',
-      }
-    );
-    const otherPersonMessage2 = new Message(
-      null,
-      'Molestie ac feugiat sed lectus vestibulum mattis.',
-      {
-        id: '2',
-        name: 'Sender',
-      }
-    );
-
-    this.messages.push(
-      userMessage1,
-      otherPersonMessage1,
-      userMessage2,
-      otherPersonMessage2
-    );
   }
 
   public onClickExit(): void {
     this.dialog.open(ConfirmationDialogComponent, {
       inputs: {
         text: 'Deseja sair do Chat?',
+        icon: 'leave'
       },
       onClose: this.handleConfirmationOption,
     });
@@ -140,7 +80,7 @@ export class ChatComponent extends UtilComponent {
 
   public submitMessage(): void {
     if(this.messageControl.valid) {
-      const message: string = this.messageControl.value;
+      const message: string = this.handleMessageBeforeSubmitting(this.messageControl.value);
       this.messageControl.reset();
       this.messageService.send(
         message,
@@ -152,8 +92,12 @@ export class ChatComponent extends UtilComponent {
     }
   }
 
+  private get messageControl(): FormControl {
+    return this.messageControl$.value;
+  }
+
   private handleConfirmationOption = (bool: any): void => {
-    if (bool) this.onLeave();
+    bool && this.onLeave();
   };
 
   private onLeave(): void {
@@ -228,10 +172,16 @@ export class ChatComponent extends UtilComponent {
   };
 
   private createMessageControl(): void {
-    this.messageControl = this.fb.control(
-      '',
-      [Validators.required]
+    this.messageControl$.next(
+      this.fb.control(
+        '',
+        [Validators.required]
+      )
     );
+  }
+
+  private handleMessageBeforeSubmitting(message: string): string {
+    return message?.trim();
   }
 
 }
