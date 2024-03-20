@@ -1,10 +1,9 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, HostListener, Inject, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[swiftTooltip]'
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnInit {
 
   private tooltip: HTMLSpanElement;
 
@@ -19,14 +18,14 @@ export class TooltipDirective {
   @Input()
   public swiftTooltip: string;
 
-  @HostListener("window:mouseover")
+  @HostListener("mouseover")
   public showTooltip(): void {
     const tooltipElement: HTMLSpanElement = this.tooltip;
     this.renderer.removeClass(tooltipElement, this.TOOLTIP_HIDE_CLASS);
     this.renderer.addClass(tooltipElement, this.TOOLTIP_SHOW_CLASS);
   }
 
-  @HostListener("window:mouseout")
+  @HostListener("mouseout")
   public hideTooltip(): void {
     const tooltipElement: HTMLSpanElement = this.tooltip;
     this.renderer.removeClass(tooltipElement, this.TOOLTIP_SHOW_CLASS);
@@ -36,15 +35,19 @@ export class TooltipDirective {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document
   ) { 
+    setInterval(() => console.log(this), 5000)
+  }
+
+  public ngOnInit(): void {
     this.createTooltip();
   }
 
   private createTooltip(): void {
     const parentElement: any = this.elementRef.nativeElement;
-    const tooltip: HTMLSpanElement = this.document.createElement('span');
-    this.renderer.addClass(tooltip, `${this.TOOLTIP_CLASS} ${this.TOOLTIP_HIDE_CLASS}`);
+    const tooltip: HTMLSpanElement = this.renderer.createElement('span');
+    this.renderer.setProperty(tooltip, 'innerHTML', this.swiftTooltip);
+    this.renderer.setAttribute(tooltip, 'class', `${this.TOOLTIP_CLASS} ${this.TOOLTIP_HIDE_CLASS}`);
     this.renderer.addClass(parentElement, this.TOOLTIP_PARENT_CLASS);
     this.renderer.appendChild(parentElement, tooltip);
     this.tooltip = tooltip;

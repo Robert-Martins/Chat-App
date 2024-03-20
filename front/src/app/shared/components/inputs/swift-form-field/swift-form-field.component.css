@@ -17,6 +17,8 @@ div.swift-form-field > input {
   outline: 0;
   border: 2px solid var(--gray-darker);
   border-radius: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: 0.2s all linear;
 }
 
